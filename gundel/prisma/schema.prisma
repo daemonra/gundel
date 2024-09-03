@@ -25,6 +25,7 @@ model User {
   avatarUrl String?
   bio String?
   sessions Session[]
+  albums Album[]
 
   createdAt DateTime @default(now())
   
@@ -35,7 +36,30 @@ model Session {
   id String @id
   userId String
   expiresAt DateTime
-  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
+}
+
+model Album {
+  id String @id @default(cuid())
+  content String
+  userId String 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  pictures Picture[]
+
+  @@map("albums")
+  
+}
+
+model Picture{
+  id String @id @default(cuid())
+  url String 
+  uploadedAt DateTime @default(now())
+  albumId String
+  album Album @relation(fields: [albumId], references: [id], onDelete: Cascade)
+
+  @@map("pictures")
 }
