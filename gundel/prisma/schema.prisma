@@ -43,6 +43,7 @@ model Session {
 
 model Album {
   id String @id @default(cuid())
+  name String @unique
   content String
   userId String 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
