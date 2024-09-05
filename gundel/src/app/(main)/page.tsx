@@ -13,9 +13,11 @@ export default async function Home() {
     <main className="w-full min-w-0">
       <div className="w-full min-w-0 space-y-5">
         <AlbumEditor />
-        {albums.map((album) => (
-          <Album key={album.id} album={album} />
-        ))}
+        <div className="w-full flex flex-row justify-between flex-wrap">
+          {albums.map((album) => (
+            <Album key={album.id} album={album} />
+          ))}
+        </div>
       </div>
     </main>
   );
