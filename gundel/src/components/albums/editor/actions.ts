@@ -2,6 +2,7 @@
 
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
+import { albumDataInclude } from "@/lib/types";
 import { AlbumValues, createAlbumSchema } from "@/lib/validation";
 
 export async function submitAlbum(credentials: AlbumValues) {
@@ -11,11 +12,14 @@ export async function submitAlbum(credentials: AlbumValues) {
 
   const { name, content } = createAlbumSchema.parse(credentials);
 
-  await prisma.album.create({
+  const newAlbum = await prisma.album.create({
     data: {
       name: name,
       content: content,
       userId: user.id,
     },
+    include: albumDataInclude,
   });
+
+  return newAlbum;
 }

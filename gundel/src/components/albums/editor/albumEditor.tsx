@@ -8,9 +8,13 @@ import UserAvatar from "@/components/UserAvatar";
 import { useSession } from "@/app/(main)/SessionProvider";
 import { Button } from "@/components/ui/button";
 import "./styles.css";
+import { useSubmitAlbumMutation } from "./mutations";
+import LoadingButton from "@/components/LoadingButton";
 
 export default function AlbumEditor() {
   const { user } = useSession();
+
+  const mutation = useSubmitAlbumMutation();
 
   const editor1 = useEditor({
     extensions: [
@@ -46,10 +50,13 @@ export default function AlbumEditor() {
       blockSeparator: "\n",
     }) || "";
 
-  async function onSubmit() {
-    await submitAlbum({ name: inputAlbumName, content: inputAlbumDesc });
-    editor1?.commands.clearContent();
-    editor2?.commands.clearContent();
+  function onSubmit() {
+    mutation.mutate({ name: inputAlbumName, content: inputAlbumDesc }, {
+      onSuccess: () => {
+        editor1?.commands.clearContent();
+        editor2?.commands.clearContent();
+      }
+    })
   }
 
   return (
@@ -70,13 +77,14 @@ export default function AlbumEditor() {
         </div>
       </div>
       <div className="flex justify-end">
-        <Button
+        <LoadingButton
           onClick={onSubmit}
+          loading={mutation.isPending}
           disabled={!inputAlbumName.trim()}
           className="min-w-20"
         >
           Create album
-        </Button>
+        </LoadingButton>
       </div>
     </div>
   );

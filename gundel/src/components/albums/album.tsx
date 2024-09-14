@@ -11,7 +11,7 @@ interface AlbumProps {
 
 export default function Album({ album }: AlbumProps) {
   return (
-    <article className="rounded-2xl bg-card mb-5 relative shadow-sm h-[20rem] w-[30%] overflow-hidden hover:cursor-pointer hover:shadow-lg transition duration-150 ease-in-out hover:ease-in-out">
+    <article className="rounded-2xl bg-card relative shadow-sm h-[20rem] overflow-hidden hover:cursor-pointer hover:shadow-lg transition duration-150 ease-in-out hover:ease-in-out">
       <Image
         src={avatarPlaceholder}
         alt="User avatar"
