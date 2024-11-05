@@ -24,6 +24,7 @@ model User {
   googleId String? @unique
   avatarUrl String?
   bio String?
+  approved Boolean @default(false)
   sessions Session[]
   albums Album[]
 

@@ -6,6 +6,7 @@ export const userDataSelect = {
   displayName: true,
   avatarUrl: true,
   bio: true,
+  approved: true,
   createdAt: true,
   _count: {
     select: {
@@ -34,5 +35,11 @@ export type AlbumData = Prisma.AlbumGetPayload<{
 
 export interface AlbumsPage {
   albums: AlbumData[];
+  nextCursor: string | null;
+}
+
+
+export interface UsersPage {
+  users: UserData[];
   nextCursor: string | null;
 }
