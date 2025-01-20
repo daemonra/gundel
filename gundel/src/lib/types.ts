@@ -22,6 +22,7 @@ export type UserData = Prisma.UserGetPayload<{
 export const albumDataInclude = {
   user: {
     select: {
+      id: true,
       username: true,
       displayName: true,
       avatarUrl: true,

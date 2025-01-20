@@ -3,6 +3,7 @@ import Album from "@/components/albums/album"
 import prisma from "@/lib/prisma";
 import { albumDataInclude } from "@/lib/types";
 import ForYouFeed from "./ForYouFeed";
+import TrendsSidebar from "@/components/TrendsSidebar";
 
 export default async function Home() {
   const albums = await prisma.album.findMany({
