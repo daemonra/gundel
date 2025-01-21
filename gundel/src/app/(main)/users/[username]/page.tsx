@@ -12,6 +12,7 @@ import Linkify from "@/components/Linkify";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
+import EditProfileButton from "./EditProfileButton";
 import UserAlbums from "./UserAlbums";
 
 interface PageProps {
@@ -114,7 +115,8 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
           </div>
         </div>
         {user.id === loggedInUserId ? (
-          <Button>Edit profile</Button>
+          // <Button>Edit profile</Button>
+          <EditProfileButton user={user} />
         ) : (
           <FollowButton userId={user.id} initialState={followerInfo} />
         )}
