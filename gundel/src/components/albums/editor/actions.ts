@@ -2,7 +2,8 @@
 
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
-import { albumDataInclude } from "@/lib/types";
+// import { albumDataInclude } from "@/lib/types";
+import { getAlbumDataInclude } from "@/lib/types";
 import { AlbumValues, createAlbumSchema } from "@/lib/validation";
 
 export async function submitAlbum(credentials: AlbumValues) {
@@ -18,7 +19,7 @@ export async function submitAlbum(credentials: AlbumValues) {
       content: content,
       userId: user.id,
     },
-    include: albumDataInclude,
+    include: getAlbumDataInclude(user.id),
   });
 
   return newAlbum;

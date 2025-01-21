@@ -15,10 +15,6 @@ export const userDataSelect = {
   },
 } satisfies Prisma.UserSelect;
 
-export type UserData = Prisma.UserGetPayload<{
-  select: typeof userDataSelect;
-}>;
-
 export const albumDataInclude = {
   user: {
     select: {
@@ -30,8 +26,47 @@ export const albumDataInclude = {
   },
 } satisfies Prisma.AlbumInclude;
 
+
+export function getUserDataSelect(loggedInUserId: string) {
+  return {
+    id: true,
+    username: true,
+    displayName: true,
+    avatarUrl: true,
+    bio: true,
+    approved: true,
+    createdAt: true,
+    followers: {
+      where: {
+        followerId: loggedInUserId,
+      },
+      select: {
+        followerId: true,
+      },
+    },
+    _count: {
+      select: {
+        albums: true,
+        followers: true,
+      },
+    },
+  } satisfies Prisma.UserSelect;
+}
+
+export function getAlbumDataInclude(loggedInUserId: string) {
+  return {
+    user: {
+      select: getUserDataSelect(loggedInUserId),
+    },
+  } satisfies Prisma.AlbumInclude;
+}
+
+export type UserData = Prisma.UserGetPayload<{
+  select: ReturnType<typeof getUserDataSelect>;
+}>;
+
 export type AlbumData = Prisma.AlbumGetPayload<{
-  include: typeof albumDataInclude;
+  include: ReturnType<typeof getAlbumDataInclude>;
 }>;
 
 export interface AlbumsPage {
@@ -43,4 +78,9 @@ export interface AlbumsPage {
 export interface UsersPage {
   users: UserData[];
   nextCursor: string | null;
+}
+
+export interface FollowerInfo {
+  followers: number;
+  isFollowedByUser: boolean;
 }

@@ -3,6 +3,8 @@ import Album from "@/components/albums/album"
 import prisma from "@/lib/prisma";
 import { albumDataInclude } from "@/lib/types";
 import ForYouFeed from "./ForYouFeed";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import FollowingFeed from "./FollowingFeed";
 import TrendsSidebar from "@/components/TrendsSidebar";
 
 export default async function Home() {
@@ -15,12 +17,18 @@ export default async function Home() {
     <main className="w-full min-w-0">
       <div className="w-full min-w-0 space-y-5">
         <AlbumEditor />
-        <ForYouFeed />
-        {/* <div className="w-full grid grid-cols-3 gap-5">
-          {albums.map((album) => (
-            <Album key={album.id} album={album} />
-          ))}
-        </div> */}
+        <Tabs defaultValue="for-you">
+          <TabsList>
+            <TabsTrigger value="for-you">For you</TabsTrigger>
+            <TabsTrigger value="following">Following</TabsTrigger>
+          </TabsList>
+          <TabsContent value="for-you">
+            <ForYouFeed />
+          </TabsContent>
+          <TabsContent value="following">
+            <FollowingFeed />
+          </TabsContent>
+        </Tabs>
       </div>
     </main>
   );

@@ -1,13 +1,14 @@
 import { validateRequest } from "@/auth";
-// import FollowButton from "@/components/FollowButton";
-// import FollowerCount from "@/components/FollowerCount";
-// import TrendsSidebar from "@/components/TrendsSidebar";
+import FollowButton from "@/components/FollowButton";
+import FollowerCount from "@/components/FollowerCount";
+import TrendsSidebar from "@/components/TrendsSidebar";
 import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/UserAvatar";
 import prisma from "@/lib/prisma";
-import { UserData, userDataSelect } from "@/lib/types";
+import { FollowerInfo, UserData, getUserDataSelect } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { formatDate } from "date-fns";
+import Linkify from "@/components/Linkify";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
@@ -25,8 +26,7 @@ const getUser = cache(async (username: string, loggedInUserId: string) => {
         mode: "insensitive",
       },
     },
-    // select: getUserDataSelect(loggedInUserId),
-    select: userDataSelect,
+    select: getUserDataSelect(loggedInUserId),
   });
 
   if (!user) notFound();
@@ -72,7 +72,6 @@ export default async function Page({ params: { username } }: PageProps) {
         </div>
         <UserAlbums userId={user.id} />
       </div>
-      {/* <TrendsSidebar /> */}
     </main>
   );
 }
@@ -83,12 +82,12 @@ interface UserProfileProps {
 }
 
 async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
-//   const followerInfo: FollowerInfo = {
-//     followers: user._count.followers,
-//     isFollowedByUser: user.followers.some(
-//       ({ followerId }) => followerId === loggedInUserId,
-//     ),
-//   };
+  const followerInfo: FollowerInfo = {
+    followers: user._count.followers,
+    isFollowedByUser: user.followers.some(
+      ({ followerId }) => followerId === loggedInUserId,
+    ),
+  };
 
   return (
     <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-5 shadow-sm">
@@ -111,19 +110,23 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
                 {formatNumber(user._count.albums)}
               </span>
             </span>
-            {/* <FollowerCount userId={user.id} initialState={followerInfo} /> */}
+            <FollowerCount userId={user.id} initialState={followerInfo} />
           </div>
         </div>
         {user.id === loggedInUserId ? (
           <Button>Edit profile</Button>
-        ) : (<></>)}
+        ) : (
+          <FollowButton userId={user.id} initialState={followerInfo} />
+        )}
       </div>
       {user.bio && (
         <>
           <hr />
-          <div className="overflow-hidden whitespace-pre-line break-words">
-            {user.bio}
-          </div>
+          <Linkify>
+            <div className="overflow-hidden whitespace-pre-line break-words">
+              {user.bio}
+            </div>
+          </Linkify>
         </>
       )}
     </div>

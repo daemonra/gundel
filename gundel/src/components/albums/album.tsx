@@ -5,9 +5,11 @@ import { AlbumData } from "@/lib/types";
 import { formatRelativeDate } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
+import Linkify from "../Linkify";
 import UserAvatar from "../UserAvatar";
 import { useSession } from "@/app/(main)/SessionProvider";
 import AlbumMoreButton from "./AlbumMoreButton";
+import UserTooltip from "../UserTooltip";
 
 interface AlbumProps {
   album: AlbumData;
@@ -28,12 +30,14 @@ export default function Album({ album }: AlbumProps) {
 
         <div className="flex justify-between gap-3">
           <div className="flex flex-wrap gap-3 text-white">
-            <Link href={`/users/${album.user.username}`}>
-              <UserAvatar avatarUrl={album.user.avatarUrl} />
-            </Link>
+            <UserTooltip user={album.user}>
+              <Link href={`/users/${album.user.username}`}>
+                <UserAvatar avatarUrl={album.user.avatarUrl} />
+              </Link>
+            </UserTooltip>
             <div>
               <Link
-                href={`/users/${album.user.username}`}
+                href={`/albums/${album.id}`}
                 className="block font-medium hover:underline"
               >
                 {album.name}
@@ -45,12 +49,14 @@ export default function Album({ album }: AlbumProps) {
                 {formatRelativeDate(album.createdAt)}
               </Link> */}
 
-              <Link
-                href={`/albums/${album.id}`}
-                className="block text-sm text-gray-100 hover:underline"
-              >
-                By {album.user.displayName}
-              </Link>
+              <UserTooltip user={album.user}>
+                <Link
+                  href={`/users/${album.user.username}`}
+                  className="block text-sm text-gray-100 hover:underline"
+                >
+                  By {album.user.displayName}
+                </Link>
+              </UserTooltip>
             </div>
           </div>
         {album.user.id === user.id && (
@@ -60,7 +66,9 @@ export default function Album({ album }: AlbumProps) {
           />
         )}
         </div>
-        <div className="whitespace-pre-line break-words text-white mb-3">{album.content}</div>
+        <Linkify>
+          <div className="whitespace-pre-line break-words text-white mb-3">{album.content}</div>
+        </Linkify>
       </div>
     </article>
   );
