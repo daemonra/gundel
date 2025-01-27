@@ -58,6 +58,15 @@ export function getAlbumDataInclude(loggedInUserId: string) {
     user: {
       select: getUserDataSelect(loggedInUserId),
     },
+    attachments: true,
+    bookmarks: {
+      where: {
+        userId: loggedInUserId,
+      },
+      select: {
+        userId: true,
+      },
+    },
   } satisfies Prisma.AlbumInclude;
 }
 
@@ -83,4 +92,8 @@ export interface UsersPage {
 export interface FollowerInfo {
   followers: number;
   isFollowedByUser: boolean;
+}
+
+export interface BookmarkInfo {
+  isBookmarkedByUser: boolean;
 }

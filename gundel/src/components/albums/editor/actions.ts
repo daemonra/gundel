@@ -11,13 +11,16 @@ export async function submitAlbum(credentials: AlbumValues) {
 
   if (!user) throw Error("Unauthorized");
 
-  const { name, content } = createAlbumSchema.parse(credentials);
+  const { name, content, mediaIds } = createAlbumSchema.parse(credentials);
 
   const newAlbum = await prisma.album.create({
     data: {
       name: name,
       content: content,
       userId: user.id,
+      attachments: {
+        connect: mediaIds.map((id) => ({ id })),
+      },
     },
     include: getAlbumDataInclude(user.id),
   });

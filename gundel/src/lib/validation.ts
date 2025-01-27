@@ -20,6 +20,7 @@ export type LoginValues = z.infer<typeof loginSchema>;
 export const createAlbumSchema = z.object({
   name: requiredString,
   content: requiredString,
+  mediaIds: z.array(z.string()).max(5, "Cannot have more than 5 attachments"),
 });
 
 export type AlbumValues = z.infer<typeof createAlbumSchema>;

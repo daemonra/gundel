@@ -29,6 +29,8 @@ model User {
   albums Album[]
   following    Follow[]  @relation("Following")
   followers    Follow[]  @relation("Followers")
+  bookmarks    Bookmark[]
+  
   createdAt DateTime @default(now())
   
   @@map("users")
@@ -58,20 +60,40 @@ model Album {
   content String
   userId String 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attachments Media[]
+  bookmarks   Bookmark[]
 
   createdAt DateTime @default(now())
-  pictures Picture[]
 
   @@map("albums")
   
 }
 
-model Picture{
+model Media{
   id String @id @default(cuid())
+  albumId String?
+  album Album? @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  type MediaType
   url String 
-  uploadedAt DateTime @default(now())
-  albumId String
-  album Album @relation(fields: [albumId], references: [id], onDelete: Cascade)
+
+
+  createdAt DateTime @default(now())
 
   @@map("pictures")
+}
+
+model Bookmark {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  albumId String
+  album   Album   @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  @@unique([userId, albumId])
+  @@map("bookmarks")
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
 }
