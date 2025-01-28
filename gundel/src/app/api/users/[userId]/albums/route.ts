@@ -20,7 +20,7 @@ export async function GET(
 
     const albums = await prisma.album.findMany({
       where: { userId },
-      include: getAlbumDataInclude(user.id),
+      include: getAlbumDataInclude(user.id, true),
       orderBy: { createdAt: "desc" },
       take: pageSize + 1,
       cursor: cursor ? { id: cursor } : undefined,

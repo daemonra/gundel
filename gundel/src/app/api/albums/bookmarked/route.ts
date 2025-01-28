@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
       },
       include: {
         album: {
-          include: getAlbumDataInclude(user.id),
+          include: getAlbumDataInclude(user.id, true),
         },
       },
       orderBy: {

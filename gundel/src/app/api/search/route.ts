@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
           },
         ],
       },
-      include: getAlbumDataInclude(user.id),
+      include: getAlbumDataInclude(user.id, true),
       orderBy: { createdAt: "desc" },
       take: pageSize + 1,
       cursor: cursor ? { id: cursor } : undefined,

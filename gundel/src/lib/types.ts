@@ -53,21 +53,40 @@ export function getUserDataSelect(loggedInUserId: string) {
   } satisfies Prisma.UserSelect;
 }
 
-export function getAlbumDataInclude(loggedInUserId: string) {
-  return {
-    user: {
-      select: getUserDataSelect(loggedInUserId),
-    },
-    attachments: true,
-    bookmarks: {
-      where: {
-        userId: loggedInUserId,
+export function getAlbumDataInclude(loggedInUserId: string, isPreview = false) {
+  if (isPreview) {
+    return {
+      user: {
+        select: getUserDataSelect(loggedInUserId),
       },
-      select: {
-        userId: true,
+      attachments: {
+        take: 1,
       },
-    },
-  } satisfies Prisma.AlbumInclude;
+      bookmarks: {
+        where: {
+          userId: loggedInUserId,
+        },
+        select: {
+          userId: true,
+        },
+      },
+    } satisfies Prisma.AlbumInclude;
+  } else {
+    return {
+      user: {
+        select: getUserDataSelect(loggedInUserId),
+      },
+      attachments: true,
+      bookmarks: {
+        where: {
+          userId: loggedInUserId,
+        },
+        select: {
+          userId: true,
+        },
+      },
+    } satisfies Prisma.AlbumInclude;
+  }
 }
 
 export type UserData = Prisma.UserGetPayload<{
