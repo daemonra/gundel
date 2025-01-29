@@ -32,7 +32,7 @@ export default function Album({ album }: AlbumProps) {
         className="aspect-square object-cover top-0 left-0 h-full w-full"
       />
 
-      <Link href={`/albums/${album.id}`}>
+      {/* <Link href={`/albums/${album.id}`}> */}
       <div className="group/album absolute flex flex-col justify-between top-0 left-0 w-full h-full p-5 bg-black/30 hover:bg-black/50 transition duration-150 ease-in-out hover:ease-in-out"
         // onClick={(e : any) => {if (e.target) router.push(`/albums/${album.id}`)}}
       >
@@ -64,7 +64,7 @@ export default function Album({ album }: AlbumProps) {
                   href={`/users/${album.user.username}`}
                   className="block text-sm text-gray-100 hover:underline"
                 >
-                  By {album.user.displayName}
+                  By {album.user.username}
                 </Link>
               </UserTooltip>
             </div>
@@ -100,54 +100,7 @@ export default function Album({ album }: AlbumProps) {
         <MediaPreviews attachments={album.attachments} />
         )} */}
       </div>
-      </Link>
+      {/* </Link> */}
     </article>
   );
-}
-
-interface MediaPreviewsProps {
-  attachments: Media[];
-}
-function MediaPreviews({ attachments }: MediaPreviewsProps) {
-  return (
-    <div
-      // className={cn(
-      //   "flex flex-col gap-3",
-      //   attachments.length > 1 && "sm:grid sm:grid-cols-2",
-      // )}
-      className="flex flex-row max-h-24"
-    >
-      {attachments.map((m) => (
-        <MediaPreview key={m.id} media={m} />
-      ))}
-    </div>
-  );
-}
-interface MediaPreviewProps {
-  media: Media;
-}
-function MediaPreview({ media }: MediaPreviewProps) {
-  if (media.type === "IMAGE") {
-    return (
-      <Image
-        src={media.url}
-        alt="Attachment"
-        width={100}
-        height={100}
-        className="mx-auto size-fit max-w-12 max-h-[30rem] rounded-sm"
-      />
-    );
-  }
-  if (media.type === "VIDEO") {
-    return (
-      <div>
-        <video
-          src={media.url}
-          controls
-          className="mx-auto size-fit max-h-[30rem] rounded-2xl"
-        />
-      </div>
-    );
-  }
-  return <p className="text-destructive">Unsupported media type</p>;
 }

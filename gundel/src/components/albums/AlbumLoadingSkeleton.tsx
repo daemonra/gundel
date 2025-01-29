@@ -2,7 +2,8 @@ import { Skeleton } from "../ui/skeleton";
 
 export default function AlbumsLoadingSkeleton() {
   return (
-    <div className="space-y-5">
+    <div className="w-full grid xl:grid-cols-3 lg:grid-cols-2 gap-4 sm:grid-cols-1">
+      <AlbumLoadingSkeleton />
       <AlbumLoadingSkeleton />
       <AlbumLoadingSkeleton />
       <AlbumLoadingSkeleton />

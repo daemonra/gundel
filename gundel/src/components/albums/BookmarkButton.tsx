@@ -12,10 +12,12 @@ import { useToast } from "../ui/use-toast";
 interface BookmarkButtonProps {
   albumId: string;
   initialState: BookmarkInfo;
+  header?: boolean;
 }
 export default function BookmarkButton({
   albumId,
   initialState,
+  header,
 }: BookmarkButtonProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -52,14 +54,20 @@ export default function BookmarkButton({
       });
     },
   });
+
   return (
     <button onClick={() => mutate()} className="flex items-center gap-2">
-      <Bookmark
+      {header ? <><Bookmark
         className={cn(
-          "size-5 text-white",
+          "size-5 text-black",
           data.isBookmarkedByUser && "fill-primary text-primary",
         )}
-      />
+      />Save</> : <Bookmark
+      className={cn(
+        "size-5 text-white",
+        data.isBookmarkedByUser && "fill-primary text-primary",
+      )}
+      />}
     </button>
   );
 }

@@ -1,7 +1,7 @@
 import { validateRequest } from "@/auth";
 import FollowButton from "@/components/FollowButton";
 import Linkify from "@/components/Linkify";
-import Album from "@/components/albums/album";
+import AlbumHeader from "@/components/AlbumHeader";
 import UserAvatar from "@/components/UserAvatar";
 import UserTooltip from "@/components/UserTooltip";
 import prisma from "@/lib/prisma";
@@ -11,6 +11,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cache, Suspense } from "react";
+import MediaPreviews from "@/components/MediaPreviews";
+
 interface PageProps {
   params: { albumId: string };
 }
@@ -45,16 +47,29 @@ export default async function Page({ params: { albumId } }: PageProps) {
   }
   const album = await getAlbum(albumId, user.id);
   return (
-    <main className="flex w-full min-w-0 gap-5">
-      <div className="w-full min-w-0 space-y-5">
-        <Album album={album} />
-      </div>
-      <div className="sticky top-[5.25rem] hidden h-fit w-80 flex-none lg:block">
-        <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
-          <UserInfoSidebar user={album.user} />
-        </Suspense>
-      </div>
-    </main>
+    <>
+      <main className="w-full">
+        <div className="flex w-full min-w-0 gap-5">
+          <div className="w-full min-w-0 space-y-5">
+            <AlbumHeader album={album} />
+          </div>
+          <div className="sticky top-[5.25rem] hidden h-fit w-80 flex-none lg:block">
+            <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
+              <UserInfoSidebar user={album.user} />
+            </Suspense>
+          </div>
+        </div>
+
+        <div className="w-full mt-7
+     columns-2 md:columns-3
+     lg:columns-3 mb-4
+     space-y-4 mx-auto'">
+          {!!album.attachments.length && (
+            <MediaPreviews attachments={album.attachments} />
+          )}
+        </div>
+      </main>
+    </>
   );
 }
 interface UserInfoSidebarProps {
@@ -101,3 +116,4 @@ async function UserInfoSidebar({ user }: UserInfoSidebarProps) {
     </div>
   );
 }
+
