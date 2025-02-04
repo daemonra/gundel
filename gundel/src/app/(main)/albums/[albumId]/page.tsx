@@ -1,7 +1,7 @@
 import { validateRequest } from "@/auth";
 import FollowButton from "@/components/FollowButton";
 import Linkify from "@/components/Linkify";
-import AlbumHeader from "@/components/AlbumHeader";
+import AlbumHeader from "@/components/albums/AlbumHeader";
 import UserAvatar from "@/components/UserAvatar";
 import UserTooltip from "@/components/UserTooltip";
 import prisma from "@/lib/prisma";
@@ -11,7 +11,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cache, Suspense } from "react";
-import MediaPreviews from "@/components/MediaPreviews";
+import AlbumMedia from "./AlbumMedia";
 
 interface PageProps {
   params: { albumId: string };
@@ -60,13 +60,12 @@ export default async function Page({ params: { albumId } }: PageProps) {
           </div>
         </div>
 
-        <div className="w-full mt-7
-     columns-2 md:columns-3
-     lg:columns-3 mb-4
-     space-y-4 mx-auto'">
-          {!!album.attachments.length && (
-            <MediaPreviews attachments={album.attachments} />
-          )}
+        <div>
+          {/* {!!album.attachments.length && (
+            <MediaPreviews album={album} attachments={album.attachments} />
+          )} */}
+          <AlbumMedia album={album} />
+
         </div>
       </main>
     </>

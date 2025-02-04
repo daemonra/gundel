@@ -30,3 +30,16 @@ export const updateUserProfileSchema = z.object({
   bio: z.string().max(1000, "Must be at most 1000 characters"),
 });
 export type UpdateUserProfileValues = z.infer<typeof updateUserProfileSchema>;
+
+export const updateUserAlbumSchema = z.object({
+  name: requiredString,
+  content: requiredString,
+});
+export type UpdateUserAlbumValues = z.infer<typeof updateUserAlbumSchema>;
+
+export const createMediaSchema = z.object({
+  albumId: requiredString,
+  mediaIds: z.array(z.string()).max(5, "Cannot have more than 5 attachments"),
+});
+
+export type MediaValues = z.infer<typeof createMediaSchema>;

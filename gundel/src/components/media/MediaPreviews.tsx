@@ -2,40 +2,35 @@
 
 import Image from "next/image";
 import { Media } from "@prisma/client";
+import MediaMoreButton from "./MediaMoreButton";
+import { AlbumData } from "@/lib/types";
+import { useSession } from "@/app/(main)/SessionProvider";
 
 
-interface MediaPreviewsProps {
-    attachments: Media[];
-  }
+// interface MediaPreviewsProps {
+//     album: AlbumData;
+//     attachments: Media[];
+// }
 
-export default function MediaPreviews({ attachments }: MediaPreviewsProps) {
-    return (
-      <>
-          {attachments.map((m) => (
-            <MediaPreview key={m.id} media={m} />
-          ))}
-      </>
-      // <div
-      //   className={cn(
-      //     "flex flex-col gap-3",
-      //     attachments.length > 1 && "sm:grid sm:grid-cols-2",
-      //   )}
-      //   className="flex flex-row max-h-24"
-      // >
-      //   {attachments.map((m) => (
-      //     <MediaPreview key={m.id} media={m} />
-      //   ))}
-      // </div>
-    );
-  }
+// export default function MediaPreviews({ album, attachments }: MediaPreviewsProps) {
+//     return (
+//       <>
+//           {attachments.map((m) => (
+//             <MediaPreview key={m.id} media={m} album={album} />
+//           ))}
+//       </>
+//     );
+//   }
   interface MediaPreviewProps {
+    album: AlbumData;
     media: Media;
   }
-  function MediaPreview({ media }: MediaPreviewProps) {
+  export function MediaPreview({ album, media }: MediaPreviewProps) {
+    const { user } = useSession();
+
     if (media.type === "IMAGE") {
       return (
         <article
-          // className="rounded-2xl bg-card relative shadow-sm"
           className="relative 
           before:absolute
           before:h-full before:w-full
@@ -44,10 +39,17 @@ export default function MediaPreviews({ attachments }: MediaPreviewsProps) {
           hover:before:bg-gray-600
           before:transition before:duration-150 before:ease-in-out hover:before:ease-in-out hover:before:shadow-lg
           before:opacity-50
-          cursor-pointer"
+          cursor-pointer group/media"
   
-          onClick={() => window.open(media.url, "_blank")}
+          // onClick={() => window.open(media.url, "_blank")}
         >
+          {album.user.id === user.id && (
+          <MediaMoreButton
+            mediaId={media.id}
+            className="absolute top-3 right-3 opacity-0 transition-opacity group-hover/media:opacity-100 z-20"
+          />
+          )}
+
           <Image
             src={media.url}
             alt="Attachment"
@@ -56,6 +58,7 @@ export default function MediaPreviews({ attachments }: MediaPreviewsProps) {
             className="mx-auto size-fit w-full rounded-2xl 
             cursor-pointer relative"
           />
+          
         </article>
       );
     }

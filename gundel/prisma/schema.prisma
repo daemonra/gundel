@@ -72,7 +72,7 @@ model Album {
 model Media{
   id String @id @default(cuid())
   albumId String?
-  album Album? @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  album Album? @relation(fields: [albumId], references: [id], onDelete: SetNull)
   type MediaType
   url String 
 

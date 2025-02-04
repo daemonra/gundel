@@ -89,6 +89,14 @@ export function getAlbumDataInclude(loggedInUserId: string, isPreview = false) {
   }
 }
 
+export function getMediaDataInclude(loggedInUserId: string) {
+  return {
+    album: {
+      select: getAlbumDataInclude(loggedInUserId, false),
+    },
+  } satisfies Prisma.MediaInclude;
+}
+
 export type UserData = Prisma.UserGetPayload<{
   select: ReturnType<typeof getUserDataSelect>;
 }>;
@@ -97,8 +105,17 @@ export type AlbumData = Prisma.AlbumGetPayload<{
   include: ReturnType<typeof getAlbumDataInclude>;
 }>;
 
+export type MediaData = Prisma.MediaGetPayload<{
+  include: ReturnType<typeof getMediaDataInclude>;
+}>;
+
 export interface AlbumsPage {
   albums: AlbumData[];
+  nextCursor: string | null;
+}
+
+export interface MediasPage {
+  media: MediaData[];
   nextCursor: string | null;
 }
 
