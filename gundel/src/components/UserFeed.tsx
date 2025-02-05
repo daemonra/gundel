@@ -1,10 +1,8 @@
-import avatarPlaceholder from "@/assets/cover.jpeg";
 import { UserData } from "@/lib/types";
-import { formatRelativeDate } from "@/lib/utils";
 import Link from "next/link";
-import Image from "next/image";
 import UserAvatar from "./UserAvatar";
-import { Button } from "./ui/button";
+import { ApproveButton, DeleteButton } from "@/app/(main)/admin/ApproveButton";
+
 
 interface UserProps {
   user: UserData;
@@ -21,14 +19,15 @@ export default function UserFeed({ user }: UserProps) {
                 <UserAvatar avatarUrl={user.avatarUrl} className="flex-none" />
                 <div>
                   <p className="line-clamp-1 break-all font-semibold hover:underline">
-                    {user.displayName}
+                    @{user.username}
                   </p>
                   <p className="line-clamp-1 break-all text-muted-foreground">
-                    @{user.username}
+                    {user.email}
                   </p>
                 </div>
               </Link>
-              <Button>Approve</Button>
+              <ApproveButton userId={user.id}/>
+              <DeleteButton userId={user.id}/>
             </div>
         </div>
   );

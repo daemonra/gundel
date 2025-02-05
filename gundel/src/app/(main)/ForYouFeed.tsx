@@ -32,7 +32,7 @@ export default function ForYouFeed() {
   const albums = data?.pages.flatMap((page) => page.albums) || [];
 
   if (status === "pending") {
-    return <AlbumsLoadingSkeleton/ >;
+    return <AlbumsLoadingSkeleton />;
   }
 
   if (status === "success" && !albums.length && !hasNextPage) {

@@ -32,6 +32,7 @@ export function getUserDataSelect(loggedInUserId: string) {
     id: true,
     username: true,
     displayName: true,
+    email: true,
     avatarUrl: true,
     bio: true,
     approved: true,

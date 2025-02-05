@@ -2,7 +2,6 @@
 
 import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
 import AlbumsLoadingSkeleton from "@/components/albums/AlbumLoadingSkeleton";
-// import Album from "@/components/albums/album";
 import kyInstance from "@/lib/ky";
 import { UsersPage } from "@/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -19,7 +18,7 @@ export default function PendingUsers() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["users-feed", "pending-users"],
+    queryKey: ["pending-users"],
     queryFn: ({ pageParam }) =>
       kyInstance
         .get(
@@ -55,7 +54,7 @@ export default function PendingUsers() {
 
   return (
     <InfiniteScrollContainer
-      className="w-full grid grid-cols-2 gap-5"
+      className="w-full grid grid-cols-2 gap-3"
       onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
     >
       {users.map((user) => (
