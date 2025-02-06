@@ -62,7 +62,7 @@ export default function BookmarkButton({
           "size-5 text-black",
           data.isBookmarkedByUser && "fill-primary text-primary",
         )}
-      />Save</> : <Bookmark
+      /></> : <Bookmark
       className={cn(
         "size-5 text-white",
         data.isBookmarkedByUser && "fill-primary text-primary",

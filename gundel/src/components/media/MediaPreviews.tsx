@@ -6,21 +6,6 @@ import MediaMoreButton from "./MediaMoreButton";
 import { AlbumData } from "@/lib/types";
 import { useSession } from "@/app/(main)/SessionProvider";
 
-
-// interface MediaPreviewsProps {
-//     album: AlbumData;
-//     attachments: Media[];
-// }
-
-// export default function MediaPreviews({ album, attachments }: MediaPreviewsProps) {
-//     return (
-//       <>
-//           {attachments.map((m) => (
-//             <MediaPreview key={m.id} media={m} album={album} />
-//           ))}
-//       </>
-//     );
-//   }
   interface MediaPreviewProps {
     album: AlbumData;
     media: Media;
@@ -40,8 +25,6 @@ import { useSession } from "@/app/(main)/SessionProvider";
           before:transition before:duration-150 before:ease-in-out hover:before:ease-in-out hover:before:shadow-lg
           before:opacity-50
           cursor-pointer group/media"
-  
-          // onClick={() => window.open(media.url, "_blank")}
         >
           {album.user.id === user.id && (
           <MediaMoreButton
@@ -57,6 +40,7 @@ import { useSession } from "@/app/(main)/SessionProvider";
             height={500}
             className="mx-auto size-fit w-full rounded-2xl 
             cursor-pointer relative"
+            onClick={() => window.open(media.url, "_blank")}
           />
           
         </article>
