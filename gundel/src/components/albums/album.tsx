@@ -44,13 +44,13 @@ export default function Album({ album }: AlbumProps) {
                 <UserAvatar avatarUrl={album.user.avatarUrl} />
               </Link>
             </UserTooltip>
-            <div>
+            <div className="max-w-[65%]">
               <Link
                 href={`/albums/${album.id}`}
                 className="block font-medium hover:underline"
                 suppressHydrationWarning
               >
-                {album.name}
+                <p className="line-clamp-1">{album.name}</p>
               </Link>
               {/* <Link
                 href={`/albums/${album.id}`}
@@ -64,7 +64,7 @@ export default function Album({ album }: AlbumProps) {
                   href={`/users/${album.user.username}`}
                   className="block text-sm text-gray-100 hover:underline"
                 >
-                  By {album.user.username}
+                  <p className="line-clamp-1">By {album.user.username}</p>
                 </Link>
               </UserTooltip>
             </div>

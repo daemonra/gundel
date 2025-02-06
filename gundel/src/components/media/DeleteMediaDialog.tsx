@@ -9,20 +9,20 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { useDeleteAlbumMutation } from "./mutations";
+import { useDeleteMediaMutation } from "./mutations";
 
-interface DeleteAlbumDialogProps {
+interface DeleteMediaDialogProps {
   mediaId: string;
   open: boolean;
   onClose: () => void;
 }
 
-export default function DeleteAlbumDialog({
+export default function DeleteMediaDialog({
   mediaId,
   open,
   onClose,
-}: DeleteAlbumDialogProps) {
-  const mutation = useDeleteAlbumMutation();
+}: DeleteMediaDialogProps) {
+  const mutation = useDeleteMediaMutation();
   function handleOpenChange(open: boolean) {
     if (!open || !mutation.isPending) {
       onClose();

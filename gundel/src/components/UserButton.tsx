@@ -3,7 +3,7 @@
 import { logout } from "@/app/(auth)/actions";
 import { useSession } from "@/app/(main)/SessionProvider";
 import { cn } from "@/lib/utils";
-import { Check, LogOutIcon, Monitor, Moon, Sun, UserIcon } from "lucide-react";
+import { Check, LogOutIcon, Monitor, Moon, ShieldCheck, Sun, UserIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import {
@@ -31,7 +31,7 @@ export default function UserButton({ className }: UserButtonProps) {
   const { theme, setTheme } = useTheme();
 
   const queryClient = useQueryClient();
-
+  // ShieldCheck
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -48,6 +48,14 @@ export default function UserButton({ className }: UserButtonProps) {
             Profile
           </DropdownMenuItem>
         </Link>
+        {user.username === "deaarash" && (
+          <Link href={`/admin`}>
+            <DropdownMenuItem>
+              <ShieldCheck className="mr-2 size-4" />
+              Admin dashboard
+            </DropdownMenuItem>
+          </Link>
+        )}
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <Monitor className="mr-2 size-4" />

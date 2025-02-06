@@ -9,32 +9,30 @@ import { usePathname, useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
 import { deleteMedia } from "./actions";
 
-export function useDeleteAlbumMutation() {
+export function useDeleteMediaMutation() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
   const mutation = useMutation({
     mutationFn: deleteMedia,
-    onSuccess: (deletedMedia) => {
-      // const queryFilter: QueryFilters = { queryKey: ["album-feed"] };
-      // await queryClient.cancelQueries(queryFilter);
-      // queryClient.setQueriesData<InfiniteData<AlbumsPage, string | null>>(
-      //   queryFilter,
-      //   (oldData) => {
-      //     if (!oldData) return;
-      //     return {
-      //       pageParams: oldData.pageParams,
-      //       pages: oldData.pages.map((page) => ({
-      //         nextCursor: page.nextCursor,
-      //         albums: page.albums.filter((p) => p.id !== deletedAlbum.id),
-      //       })),
-      //     };
-      //   },
-      // );
-
+    onSuccess: async (albumOfDeletedMedia) => {
+      const queryFilter: QueryFilters = { queryKey: ["album-feed"] };
+      await queryClient.cancelQueries(queryFilter);
+      queryClient.setQueriesData<InfiniteData<AlbumsPage, string | null>>(
+        queryFilter,
+        (oldData) => {
+          if (!oldData) return;
+          return {
+            pageParams: oldData.pageParams,
+            pages: oldData.pages.map((page) => ({
+              nextCursor: page.nextCursor,
+              albums: page.albums.filter((p) => p.id !== albumOfDeletedMedia.id),
+            })),
+          };
+        },
+      );
       router.refresh();
-
       toast({
         description: "Picture deleted",
       });

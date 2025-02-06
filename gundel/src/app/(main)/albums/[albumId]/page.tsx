@@ -61,9 +61,6 @@ export default async function Page({ params: { albumId } }: PageProps) {
         </div>
 
         <div>
-          {/* {!!album.attachments.length && (
-            <MediaPreviews album={album} attachments={album.attachments} />
-          )} */}
           <AlbumMedia album={album} />
 
         </div>

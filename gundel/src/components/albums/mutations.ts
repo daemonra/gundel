@@ -104,9 +104,7 @@ export function useSubmitNewMediaMutation() {
           return queryFilter.predicate(query) && !query.state.data;
         },
       });
-
       router.refresh();
-
       toast({
         description: "Media uploaded",
       });

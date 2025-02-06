@@ -25,5 +25,5 @@ export async function deleteMedia(id: string) {
       albumId: null
     },
   });
-  return deleteMedia;
+  return album;
 }
