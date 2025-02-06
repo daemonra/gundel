@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Media } from "@prisma/client";
 import MediaMoreButton from "./MediaMoreButton";
 import { AlbumData } from "@/lib/types";
+import { customLoader } from "@/lib/utils";
 import { useSession } from "@/app/(main)/SessionProvider";
 
   interface MediaPreviewProps {
@@ -34,13 +35,13 @@ import { useSession } from "@/app/(main)/SessionProvider";
           )}
 
           <Image
+            loader={customLoader}
             src={media.url}
             alt="Attachment"
             width={500}
             height={500}
             className="mx-auto size-fit w-full rounded-2xl 
             cursor-pointer relative"
-            onClick={() => window.open(media.url, "_blank")}
           />
           
         </article>

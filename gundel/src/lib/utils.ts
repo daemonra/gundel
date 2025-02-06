@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { formatDate, formatDistanceToNowStrict } from "date-fns";
 import { twMerge } from "tailwind-merge"
+import { ImageLoaderProps } from 'next/image';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -25,3 +26,7 @@ export function formatNumber(n: number): string {
     maximumFractionDigits: 1,
   }).format(n);
 }
+
+export const customLoader = ({ src }: ImageLoaderProps): string => {
+  return src;
+};
