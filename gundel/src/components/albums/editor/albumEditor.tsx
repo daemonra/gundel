@@ -48,6 +48,8 @@ export default function AlbumEditor() {
         placeholder: "Album name",
       }),
     ],
+
+    immediatelyRender: false,
   });
 
   const editor2 = useEditor({
@@ -60,6 +62,7 @@ export default function AlbumEditor() {
         placeholder: "Album description...",
       }),
     ],
+    immediatelyRender: false,
   });
 
   const inputAlbumName =
